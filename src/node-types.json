@@ -22,7 +22,7 @@
         "named": true
       },
       {
-        "type": "false",
+        "type": "boolean",
         "named": true
       },
       {
@@ -51,10 +51,6 @@
       },
       {
         "type": "table_constructor",
-        "named": true
-      },
-      {
-        "type": "true",
         "named": true
       },
       {
@@ -238,6 +234,11 @@
     }
   },
   {
+    "type": "boolean",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "bracket_index_expression",
     "named": true,
     "fields": {
@@ -280,11 +281,11 @@
       "required": false,
       "types": [
         {
-          "type": "hash_bang_line",
+          "type": "return_statement",
           "named": true
         },
         {
-          "type": "return_statement",
+          "type": "shebang",
           "named": true
         },
         {
@@ -875,37 +876,20 @@
   {
     "type": "string",
     "named": true,
-    "fields": {
-      "content": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "string_content",
-            "named": false
-          }
-        ]
-      },
-      "end": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "string_end",
-            "named": false
-          }
-        ]
-      },
-      "start": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "string_start",
-            "named": false
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "string_content",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1011,6 +995,10 @@
     }
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "#",
     "named": false
   },
@@ -1020,6 +1008,10 @@
   },
   {
     "type": "&",
+    "named": false
+  },
+  {
+    "type": "'",
     "named": false
   },
   {
@@ -1111,7 +1103,15 @@
     "named": false
   },
   {
+    "type": "[[",
+    "named": false
+  },
+  {
     "type": "]",
+    "named": false
+  },
+  {
+    "type": "]]",
     "named": false
   },
   {
@@ -1155,8 +1155,12 @@
     "named": false
   },
   {
-    "type": "false",
+    "type": "escape_sequence",
     "named": true
+  },
+  {
+    "type": "false",
+    "named": false
   },
   {
     "type": "for",
@@ -1169,10 +1173,6 @@
   {
     "type": "goto",
     "named": false
-  },
-  {
-    "type": "hash_bang_line",
-    "named": true
   },
   {
     "type": "identifier",
@@ -1215,16 +1215,12 @@
     "named": false
   },
   {
+    "type": "shebang",
+    "named": true
+  },
+  {
     "type": "string_content",
-    "named": false
-  },
-  {
-    "type": "string_end",
-    "named": false
-  },
-  {
-    "type": "string_start",
-    "named": false
+    "named": true
   },
   {
     "type": "then",
@@ -1232,7 +1228,7 @@
   },
   {
     "type": "true",
-    "named": true
+    "named": false
   },
   {
     "type": "until",
