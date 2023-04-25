@@ -67,38 +67,41 @@ f4(a1)("a2") { a3 = "a3" }
 
 (chunk
   (function_call
-    name: (identifier)
-    arguments: (arguments))
+    (identifier)
+    (arguments))
   (function_call
-    name: (dot_index_expression
-      table: (identifier)
-      field: (identifier))
-    arguments: (arguments))
+    (dot_index_expression
+      (identifier)
+      (identifier))
+    (arguments))
   (function_call
-    name: (bracket_index_expression
-      table: (identifier)
-      field: (string))
-    arguments: (arguments))
+    (bracket_index_expression
+      (identifier)
+      (string
+        (string_content)))
+    (arguments))
   (function_call
-    name: (method_index_expression
-      table: (dot_index_expression
-        table: (identifier)
-        field: (identifier))
-      method: (identifier))
-    arguments: (arguments))
+    (method_index_expression
+      (dot_index_expression
+        (identifier)
+        (identifier))
+      (identifier))
+    (arguments))
   (function_call
-    name: (function_call
-      name: (function_call
-        name: (identifier)
-        arguments: (arguments
+    (function_call
+      (function_call
+        (identifier)
+        (arguments
           (identifier)))
-      arguments: (arguments
-        (string)))
-    arguments: (arguments
+      (arguments
+        (string
+          (string_content))))
+    (arguments
       (table_constructor
         (field
-          name: (identifier)
-          value: (string))))))
+          (identifier)
+          (string
+            (string_content)))))))
 
 ================================================================================
 label_statement
@@ -206,7 +209,7 @@ while false do end
             left: (identifier)
             right: (number))))))
   (while_statement
-    condition: (false)))
+    condition: (boolean)))
 
 ================================================================================
 repeat_statement
@@ -238,7 +241,7 @@ repeat until false
       left: (identifier)
       right: (number)))
   (repeat_statement
-    condition: (false)))
+    condition: (boolean)))
 
 ================================================================================
 if_statement
@@ -262,43 +265,46 @@ if c1 then elseif c2 then else end
 
 (chunk
   (if_statement
-    condition: (binary_expression
-      left: (binary_expression
-        left: (identifier)
-        right: (number))
-      right: (number))
-    consequence: (block
+    (binary_expression
+      (binary_expression
+        (identifier)
+        (number))
+      (number))
+    (block
       (function_call
-        name: (identifier)
-        arguments: (arguments
-          (string))))
-    alternative: (elseif_statement
-      condition: (binary_expression
-        left: (binary_expression
-          left: (identifier)
-          right: (number))
-        right: (number))
-      consequence: (block
+        (identifier)
+        (arguments
+          (string
+            (string_content)))))
+    (elseif_statement
+      (binary_expression
+        (binary_expression
+          (identifier)
+          (number))
+        (number))
+      (block
         (function_call
-          name: (identifier)
-          arguments: (arguments
-            (string)))))
-    alternative: (else_statement
-      body: (block
+          (identifier)
+          (arguments
+            (string
+              (string_content))))))
+    (else_statement
+      (block
         (function_call
-          name: (identifier)
-          arguments: (arguments
-            (string))))))
+          (identifier)
+          (arguments
+            (string
+              (string_content)))))))
   (if_statement
-    condition: (identifier))
+    (identifier))
   (if_statement
-    condition: (identifier)
-    alternative: (else_statement))
+    (identifier)
+    (else_statement))
   (if_statement
-    condition: (identifier)
-    alternative: (elseif_statement
-      condition: (identifier))
-    alternative: (else_statement)))
+    (identifier)
+    (elseif_statement
+      (identifier))
+    (else_statement)))
 
 ================================================================================
 for_statement ::: for_generic_clause
@@ -389,33 +395,34 @@ local function f5() end
 
 (chunk
   (function_declaration
-    name: (dot_index_expression
-      table: (identifier)
-      field: (identifier))
-    parameters: (parameters))
+    (dot_index_expression
+      (identifier)
+      (identifier))
+    (parameters))
   (function_declaration
-    name: (method_index_expression
-      table: (identifier)
-      method: (identifier))
-    parameters: (parameters))
+    (method_index_expression
+      (identifier)
+      (identifier))
+    (parameters))
   (function_declaration
-    name: (method_index_expression
-      table: (dot_index_expression
-        table: (identifier)
-        field: (identifier))
-      method: (identifier))
-    parameters: (parameters))
+    (method_index_expression
+      (dot_index_expression
+        (identifier)
+        (identifier))
+      (identifier))
+    (parameters))
   (function_declaration
-    name: (identifier)
-    parameters: (parameters)
-    body: (block
+    (identifier)
+    (parameters)
+    (block
       (function_call
-        name: (identifier)
-        arguments: (arguments
-          (string)))))
-  local_declaration: (function_declaration
-    name: (identifier)
-    parameters: (parameters)))
+        (identifier)
+        (arguments
+          (string
+            (string_content))))))
+  (function_declaration
+    (identifier)
+    (parameters)))
 
 ================================================================================
 variable_declaration
@@ -468,27 +475,28 @@ local f <close> = io.open('/file.lua')
 --------------------------------------------------------------------------------
 
 (chunk
-  local_declaration: (variable_declaration
+  (variable_declaration
     (assignment_statement
       (variable_list
-        name: (identifier)
-        attribute: (attribute
+        (identifier)
+        (attribute
           (identifier))
-        name: (identifier)
-        attribute: (attribute
+        (identifier)
+        (attribute
           (identifier)))
       (expression_list
-        value: (number))))
-  local_declaration: (variable_declaration
+        (number))))
+  (variable_declaration
     (assignment_statement
       (variable_list
-        name: (identifier)
-        attribute: (attribute
+        (identifier)
+        (attribute
           (identifier)))
       (expression_list
-        value: (function_call
-          name: (dot_index_expression
-            table: (identifier)
-            field: (identifier))
-          arguments: (arguments
-            (string)))))))
+        (function_call
+          (dot_index_expression
+            (identifier)
+            (identifier))
+          (arguments
+            (string
+              (string_content))))))))

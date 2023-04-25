@@ -24,7 +24,7 @@ exp(false)
   (function_call
     name: (identifier)
     arguments: (arguments
-      (false))))
+      (boolean))))
 
 ================================================================================
 true
@@ -38,7 +38,7 @@ exp(true)
   (function_call
     name: (identifier)
     arguments: (arguments
-      (true))))
+      (boolean))))
 
 ================================================================================
 number
@@ -129,27 +129,56 @@ exp(
 
 (chunk
   (function_call
-    name: (identifier)
-    arguments: (arguments
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string))))
+    (identifier)
+    (arguments
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content)
+        (escape_sequence)
+        (string_content))
+      (string
+        (string_content)
+        (escape_sequence))
+      (string
+        (string_content)
+        (escape_sequence)
+        (string_content))
+      (string
+        (string_content)
+        (escape_sequence)
+        (string_content))
+      (string
+        (string_content)
+        (escape_sequence)
+        (escape_sequence)
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content)))))
 
 ================================================================================
 vararg_expression
@@ -280,36 +309,37 @@ v4 = tbk[getK1()][getK2()]
 (chunk
   (assignment_statement
     (variable_list
-      name: (identifier))
+      (identifier))
     (expression_list
-      value: (bracket_index_expression
-        table: (identifier)
-        field: (identifier))))
+      (bracket_index_expression
+        (identifier)
+        (identifier))))
   (assignment_statement
     (variable_list
-      name: (identifier)
-      name: (bracket_index_expression
-        table: (identifier)
-        field: (identifier)))
+      (identifier)
+      (bracket_index_expression
+        (identifier)
+        (identifier)))
     (expression_list
-      value: (bracket_index_expression
-        table: (bracket_index_expression
-          table: (identifier)
-          field: (identifier))
-        field: (string))))
+      (bracket_index_expression
+        (bracket_index_expression
+          (identifier)
+          (identifier))
+        (string
+          (string_content)))))
   (assignment_statement
     (variable_list
-      name: (identifier))
+      (identifier))
     (expression_list
-      value: (bracket_index_expression
-        table: (bracket_index_expression
-          table: (identifier)
-          field: (function_call
-            name: (identifier)
-            arguments: (arguments)))
-        field: (function_call
-          name: (identifier)
-          arguments: (arguments))))))
+      (bracket_index_expression
+        (bracket_index_expression
+          (identifier)
+          (function_call
+            (identifier)
+            (arguments)))
+        (function_call
+          (identifier)
+          (arguments))))))
 
 ================================================================================
 variable ::: dot_index_expression
@@ -354,43 +384,45 @@ v3 = tbl[k1] "a1"
 (chunk
   (assignment_statement
     (variable_list
-      name: (identifier))
+      (identifier))
     (expression_list
-      value: (function_call
-        name: (dot_index_expression
-          table: (bracket_index_expression
-            table: (identifier)
-            field: (identifier))
-          field: (identifier))
-        arguments: (arguments
+      (function_call
+        (dot_index_expression
+          (bracket_index_expression
+            (identifier)
+            (identifier))
+          (identifier))
+        (arguments
           (identifier)
-          (string)
+          (string
+            (string_content))
           (function_call
-            name: (identifier)
-            arguments: (arguments))))))
+            (identifier)
+            (arguments))))))
   (assignment_statement
     (variable_list
-      name: (identifier))
+      (identifier))
     (expression_list
-      value: (function_call
-        name: (bracket_index_expression
-          table: (identifier)
-          field: (identifier))
-        arguments: (arguments
+      (function_call
+        (bracket_index_expression
+          (identifier)
+          (identifier))
+        (arguments
           (table_constructor
             (field
-              name: (identifier)
-              value: (true)))))))
+              (identifier)
+              (boolean)))))))
   (assignment_statement
     (variable_list
-      name: (identifier))
+      (identifier))
     (expression_list
-      value: (function_call
-        name: (bracket_index_expression
-          table: (identifier)
-          field: (identifier))
-        arguments: (arguments
-          (string))))))
+      (function_call
+        (bracket_index_expression
+          (identifier)
+          (identifier))
+        (arguments
+          (string
+            (string_content)))))))
 
 ================================================================================
 function_call ::: method_index_expression
@@ -406,32 +438,35 @@ tbl:m1 "a1"
 
 (chunk
   (function_call
-    name: (method_index_expression
-      table: (dot_index_expression
-        table: (identifier)
-        field: (identifier))
-      method: (identifier))
-    arguments: (arguments
+    (method_index_expression
+      (dot_index_expression
+        (identifier)
+        (identifier))
+      (identifier))
+    (arguments
       (identifier)
-      (string)))
+      (string
+        (string_content))))
   (function_call
-    name: (method_index_expression
-      table: (bracket_index_expression
-        table: (identifier)
-        field: (identifier))
-      method: (identifier))
-    arguments: (arguments
+    (method_index_expression
+      (bracket_index_expression
+        (identifier)
+        (identifier))
+      (identifier))
+    (arguments
       (table_constructor
         (field
-          value: (identifier))
+          (identifier))
         (field
-          value: (string)))))
+          (string
+            (string_content))))))
   (function_call
-    name: (method_index_expression
-      table: (identifier)
-      method: (identifier))
-    arguments: (arguments
-      (string))))
+    (method_index_expression
+      (identifier)
+      (identifier))
+    (arguments
+      (string
+        (string_content)))))
 
 ================================================================================
 parenthesized_expression
@@ -449,14 +484,14 @@ v = ( ( false ) )
       name: (identifier))
     (expression_list
       value: (parenthesized_expression
-        (true))))
+        (boolean))))
   (assignment_statement
     (variable_list
       name: (identifier))
     (expression_list
       value: (parenthesized_expression
         (parenthesized_expression
-          (false))))))
+          (boolean))))))
 
 ================================================================================
 table_constructor
@@ -482,44 +517,50 @@ local tbl3 = { "v1", k1 = "v2" }
 (chunk
   (assignment_statement
     (variable_list
-      name: (identifier))
+      (identifier))
     (expression_list
-      value: (table_constructor
+      (table_constructor
         (field
-          name: (string)
-          value: (table_constructor
+          (string
+            (string_content))
+          (table_constructor
             (field
-              name: (string)
-              value: (true))
+              (string
+                (string_content))
+              (boolean))
             (field
-              name: (identifier)
-              value: (false)))))))
-  local_declaration: (variable_declaration
+              (identifier)
+              (boolean)))))))
+  (variable_declaration
     (assignment_statement
       (variable_list
-        name: (identifier))
+        (identifier))
       (expression_list
-        value: (table_constructor
+        (table_constructor
           (field
-            name: (identifier)
-            value: (table_constructor
+            (identifier)
+            (table_constructor
               (field
-                value: (table_constructor
+                (table_constructor
                   (field
-                    value: (string))
+                    (string
+                      (string_content)))
                   (field
-                    value: (string))))))))))
-  local_declaration: (variable_declaration
+                    (string
+                      (string_content)))))))))))
+  (variable_declaration
     (assignment_statement
       (variable_list
-        name: (identifier))
+        (identifier))
       (expression_list
-        value: (table_constructor
+        (table_constructor
           (field
-            value: (string))
+            (string
+              (string_content)))
           (field
-            name: (identifier)
-            value: (string)))))))
+            (identifier)
+            (string
+              (string_content))))))))
 
 ================================================================================
 binary_expression

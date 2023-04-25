@@ -60,9 +60,10 @@ print("not level 2 block comment")
   (comment)
   (comment)
   (function_call
-    name: (identifier)
-    arguments: (arguments
-      (string)))
+    (identifier)
+    (arguments
+      (string
+        (string_content))))
   (comment)
   (comment)
   (comment)
@@ -74,7 +75,8 @@ print("not level 2 block comment")
   (comment)
   (comment)
   (function_call
-    name: (identifier)
-    arguments: (arguments
-      (string)))
+    (identifier)
+    (arguments
+      (string
+        (string_content))))
   (comment))
