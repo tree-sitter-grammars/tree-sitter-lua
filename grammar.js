@@ -33,9 +33,9 @@ module.exports = grammar({
     $._block_comment_content,
     $._block_comment_end,
 
-    $._string_start,
-    $._string_content,
-    $._string_end,
+    $._multiline_string_start,
+    $._multiline_string_content,
+    $._multiline_string_end,
   ],
 
   supertypes: ($) => [$.statement, $.expression, $.declaration, $.variable],
@@ -346,12 +346,55 @@ module.exports = grammar({
     },
 
     // LiteralString
-    string: ($) =>
+    string: $ => choice($._string_literal, $._multiline_string_literal),
+
+    _string_literal: $ => choice(
       seq(
-        field('start', alias($._string_start, 'string_start')),
-        field('content', optional(alias($._string_content, 'string_content'))),
-        field('end', alias($._string_end, 'string_end'))
+        '"',
+        repeat(choice(
+          alias($.unescaped_double_string_content, $.string_content),
+          $.escape_sequence,
+        )),
+        '"',
       ),
+      seq(
+        '\'',
+        repeat(choice(
+          alias($.unescaped_single_string_content, $.string_content),
+          $.escape_sequence,
+        )),
+        '\'',
+      ),
+    ),
+
+      alias($._multiline_string_end, ']]'),
+    ),
+
+    // Workaround to https://github.com/tree-sitter/tree-sitter/issues/1156
+    // We give names to the token() constructs containing a regexp
+    // so as to obtain a node in the CST.
+    //
+    unescaped_double_string_content: _ => token.immediate(prec(1, /[^"\\]+/)),
+
+    // same here
+    unescaped_single_string_content: _ => token.immediate(prec(1, /[^'\\]+/)),
+
+    _escape_sequence: $ => choice(
+      prec(2, token.immediate(seq('\\', /[^abfnrtvxu'\"\\\?]/))),
+      prec(1, $.escape_sequence),
+    ),
+
+    escape_sequence: _ => token.immediate(seq(
+      '\\',
+      choice(
+        /[^xu0-7]/,
+        /[0-7]{1,3}/,
+        /x[0-9a-fA-F]{2}/,
+        /u[0-9a-fA-F]{4}/,
+        /u{[0-9a-fA-F]+}/,
+        /U[0-9a-fA-F]{8}/,
+      ),
+    )),
 
     // '...'
     vararg_expression: (_) => '...',
