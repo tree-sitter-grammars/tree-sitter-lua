@@ -1,11 +1,6 @@
-*.log
-*.tgz
-.DS_Store
 Cargo.lock
-build
-node_modules
 package-lock.json
-yarn.lock
-target
-
-examples/luvit
+/build
+/node_modules
+/examples/*/
+/target

@@ -2,35 +2,33 @@
   "name": "@muniftanjim/tree-sitter-lua",
   "version": "0.0.14",
   "description": "Lua grammar for tree-sitter",
+  "main": "bindings/node",
   "keywords": [
     "tree-sitter",
     "parser",
     "lua"
   ],
-  "homepage": "https://github.com/MunifTanjim/tree-sitter-lua#readme",
-  "bugs": "https://github.com/MunifTanjim/tree-sitter-lua/issues",
-  "license": "MIT",
   "author": "Munif Tanjim (https://muniftanjim.dev)",
-  "files": [
-    "bindings",
-    "queries",
-    "src",
-    "binding.gyp",
-    "grammar.js"
+  "contributors": [
+    "Amaan Qureshi <amaanq12@gmail.com>"
   ],
-  "main": "bindings/node",
-  "repository": "https://github.com/MunifTanjim/tree-sitter-lua",
-  "scripts": {
-    "build": "tree-sitter generate",
-    "postbuild": "node-gyp build",
-    "test": "tree-sitter test",
-    "posttest": "./script/parse-examples lua"
-  },
+  "license": "MIT",
+  "bugs": "https://github.com/MunifTanjim/tree-sitter-lua/issues",
+  "homepage": "https://github.com/MunifTanjim/tree-sitter-lua#readme",
   "dependencies": {
     "nan": "^2.14.2"
   },
   "devDependencies": {
+    "eslint": "^8.39.0",
+    "eslint-config-google": "^0.14.0",
     "tree-sitter-cli": "^0.20.0"
+  },
+  "repository": "https://github.com/MunifTanjim/tree-sitter-lua",
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "parse": "tree-sitter parse",
+    "test": "tree-sitter test && script/parse-examples",
+    "test-windows": "tree-sitter test"
   },
   "publishConfig": {
     "access": "public"
@@ -38,8 +36,12 @@
   "tree-sitter": [
     {
       "scope": "source.lua",
+      "injection-regex": "lua",
       "file-types": [
         "lua"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
       ]
     }
   ]
