@@ -4,48 +4,42 @@ set -euo pipefail
 
 cd "$(dirname "${0}")/.."
 
-checkout_repo() {
-  local -r path="${1}"
-  local -r repo="${2}"
-  local -r sha="${3}"
+function clone_repo {
+	owner=$1
+	name=$2
+	sha=$3
 
-  echo "Checking out github.com/${repo}#${sha} in ${path}"
+	path=examples/$name
+	if [ ! -d "$path" ]; then
+		echo "Cloning $owner/$name"
+		git clone "https://github.com/$owner/$name" "$path"
+	fi
 
-  mkdir -p "${path}"
-  pushd "${path}" >/dev/null
-
-  if [[ ! -d ".git" ]]; then
-    git init --quiet
-    git remote add origin "https://github.com/${repo}.git"
-    git fetch --quiet --depth 1 origin "${sha}"
-  elif [[ "${sha}" != "$(git rev-parse HEAD)" ]]; then
-    git fetch --quiet --depth 1 origin "${sha}"
-  fi
-
-  git checkout --quiet FETCH_HEAD
-
-  popd >/dev/null
-
-  echo
+	pushd "$path" >/dev/null
+	actual_sha=$(git rev-parse HEAD)
+	if [ "$actual_sha" != "$sha" ]; then
+		echo "Updating $owner/$name to $sha"
+		git fetch
+		git reset --hard "$sha"
+	fi
+	popd >/dev/null
 }
 
-checkout_repo "./examples/luvit" "luvit/luvit" "9841bc17aaab32fa63e11063cf68f82da615eefd"
+clone_repo lua lua e15f1f2bb7a38a3c94519294d031e48508d65006
+clone_repo luvit luvit a8c708e064cc1d60ecca8d8ca00bc28fa2e49eeb
 
-parse_examples() {
-  local -r known_failures="$(cat script/known_failures.txt)"
+known_failures="$(cat script/known_failures.txt)"
 
-  tree-sitter parse --quiet \
-    "./examples/luvit/**/*.lua" \
-    $(for file in ${known_failures}; do echo "!${file}"; done)
+# shellcheck disable=2046
+tree-sitter parse -q \
+	"examples/**/*.lua" \
+	$(for failure in $known_failures; do echo "!${failure}"; done)
 
-  declare -r example_count=$(find ./examples -name "*.lua" | wc -l)
-  declare -r failure_count=$(wc -w <<< "${known_failures}")
-  declare -r success_count=$(( ${example_count} - ${failure_count} ))
-  declare -r success_percent=$(bc -l <<< "100*${success_count}/${example_count}")
+example_count=$(find examples -name "*.lua" | wc -l)
+failure_count=$(wc -w <<<"$known_failures")
+success_count=$((example_count - failure_count))
+success_percent=$(bc -l <<<"100*${success_count}/${example_count}")
 
-  printf \
-    "[Lua] Successfully parsed %d of %d example files (%.1f%%)\n" \
-    ${success_count} ${example_count} ${success_percent}
-}
-
-parse_examples
+printf \
+	"Successfully parsed %d of %d example files (%.1f%%)\n" \
+	"$success_count" "$example_count" "$success_percent"
