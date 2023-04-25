@@ -321,6 +321,8 @@ module.exports = grammar({
       const hex_digits = /[a-fA-F0-9]+/;
       const hex_exponent_part = seq(choice('p', 'P'), signed_integer);
 
+      const bin_digits = /[01]+/;
+
       const decimal_literal = choice(
         seq(
           decimal_integer_literal,
@@ -334,12 +336,13 @@ module.exports = grammar({
 
       const hex_literal = seq(
         choice('0x', '0X'),
+		    optional('.'),
         hex_digits,
         optional(seq('.', hex_digits)),
         optional(hex_exponent_part)
       );
 
-      return token(choice(decimal_literal, hex_literal));
+      return token(choice(decimal_literal, hex_literal, bin_digits));
     },
 
     // LiteralString
