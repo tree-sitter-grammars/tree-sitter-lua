@@ -1,14 +1,14 @@
+;; Preproc
+
+(shebang) @preproc
+
 ;; Keywords
 
-"return" @keyword.return
-
 [
- "goto"
- "in"
- "local"
+  "goto"
+  "in"
+  "local"
 ] @keyword
-
-(label_statement) @label
 
 (break_statement) @keyword
 
@@ -72,12 +72,14 @@
   "end"
 ] @keyword.function)
 
+"return" @keyword.return
+
 ;; Operators
 
 [
- "and"
- "not"
- "or"
+  "and"
+  "not"
+  "or"
 ] @keyword.operator
 
 [
@@ -109,6 +111,7 @@
 [
   ";"
   ":"
+  "::"
   ","
   "."
 ] @punctuation.delimiter
@@ -116,12 +119,12 @@
 ;; Brackets
 
 [
- "("
- ")"
- "["
- "]"
- "{"
- "}"
+  "("
+  ")"
+  "["
+  "]"
+  "{"
+  "}"
 ] @punctuation.bracket
 
 ;; Variables
@@ -129,26 +132,26 @@
 (identifier) @variable
 
 ((identifier) @variable.builtin
- (#eq? @variable.builtin "self"))
+ (#any-of? @variable.builtin "_G" "_VERSION" "debug" "io" "jit" "math" "os" "package" "self" "string" "table" "utf8"))
+
+((identifier) @keyword.coroutine
+  (#eq? @keyword.coroutine "coroutine"))
 
 (variable_list
    attribute: (attribute
      (["<" ">"] @punctuation.bracket
       (identifier) @attribute)))
 
+;; Labels
+
+(label_statement (identifier) @label)
+
+(goto_statement (identifier) @label)
+
 ;; Constants
 
 ((identifier) @constant
  (#lua-match? @constant "^[A-Z][A-Z_0-9]*$"))
-
-(vararg_expression) @constant
-
-(nil) @constant.builtin
-
-[
-  (false)
-  (true)
-] @boolean
 
 ;; Tables
 
@@ -172,7 +175,7 @@
 (function_call name: (dot_index_expression field: (identifier) @function.call))
 (function_declaration name: (dot_index_expression field: (identifier) @function))
 
-(method_index_expression method: (identifier) @method)
+(method_index_expression method: (identifier) @method.call)
 
 (function_call
   (identifier) @function.builtin
@@ -180,15 +183,38 @@
     ;; built-in functions in Lua 5.1
     "assert" "collectgarbage" "dofile" "error" "getfenv" "getmetatable" "ipairs"
     "load" "loadfile" "loadstring" "module" "next" "pairs" "pcall" "print"
-    "rawequal" "rawget" "rawset" "require" "select" "setfenv" "setmetatable"
-    "tonumber" "tostring" "type" "unpack" "xpcall"))
+    "rawequal" "rawget" "rawlen" "rawset" "require" "select" "setfenv" "setmetatable"
+    "tonumber" "tostring" "type" "unpack" "xpcall"
+    "__add" "__band" "__bnot" "__bor" "__bxor" "__call" "__concat" "__div" "__eq" "__gc"
+    "__idiv" "__index" "__le" "__len" "__lt" "__metatable" "__mod" "__mul" "__name" "__newindex"
+    "__pairs" "__pow" "__shl" "__shr" "__sub" "__tostring" "__unm"))
 
-;; Others
 
-(comment) @comment
-
-(hash_bang_line) @preproc
+;; Literals
 
 (number) @number
 
-(string) @string
+(string) @string @spell
+
+(escape_sequence) @string.escape
+
+(boolean) @boolean
+
+[
+  (nil)
+  (vararg_expression)
+] @constant.builtin
+
+;; Others
+
+(comment) @comment @spell
+
+((comment) @comment.documentation
+  (#lua-match? @comment.documentation "^[-][-][-]"))
+
+((comment) @comment.documentation
+  (#lua-match? @comment.documentation "^[-][-](%s?)@"))
+
+;; Error
+
+(ERROR) @error
