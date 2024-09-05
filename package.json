@@ -1,6 +1,6 @@
 {
   "name": "@tree-sitter-grammars/tree-sitter-lua",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Lua grammar for tree-sitter",
   "repository": "tree-sitter-grammars/tree-sitter-lua",
   "author": "Munif Tanjim (https://muniftanjim.dev)",
@@ -26,11 +26,11 @@
     "node-gyp-build": "^4.8.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.21.0",
+    "tree-sitter-cli": "^0.23.0",
     "prebuildify": "^6.0.0"
   },
   "peerDependencies": {
-    "tree-sitter": "^0.21.0"
+    "tree-sitter": "^0.23.0"
   },
   "peerDependenciesMeta": {
     "tree_sitter": {
@@ -38,8 +38,8 @@
     }
   },
   "scripts": {
-    "build": "tree-sitter generate --no-bindings",
-    "test": "tree-sitter test",
+    "build": "npx tree-sitter-cli generate --no-bindings",
+    "test": "npx tree-sitter-cli test",
     "install": "node-gyp-build",
     "prebuildify": "prebuildify --napi --strip"
   },
