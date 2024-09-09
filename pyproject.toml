@@ -12,12 +12,10 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
   "Topic :: Software Development :: Compilers",
   "Topic :: Text Processing :: Linguistic",
-  "Typing :: Typed"
+  "Typing :: Typed",
 ]
-authors = [
-  {name = "Munif Tanjim", email = "hello@muniftanjim.dev"}
-]
-requires-python = ">=3.8"
+authors = [{ name = "Munif Tanjim", email = "hello@muniftanjim.dev" }]
+requires-python = ">=3.9"
 license.text = "MIT"
 readme = "README.md"
 
@@ -28,5 +26,5 @@ Homepage = "https://github.com/tree-sitter-grammars/tree-sitter-lua"
 core = ["tree-sitter~=0.23"]
 
 [tool.cibuildwheel]
-build = "cp38-*"
+build = "cp39-*"
 build-frontend = "build"

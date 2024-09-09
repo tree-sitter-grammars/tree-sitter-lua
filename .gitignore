@@ -1,17 +1,17 @@
 # Rust artifacts
-Cargo.lock
 target/
 
 # Node artifacts
 build/
+prebuilds/
 node_modules/
 *.tgz
 
 # Swift artifacts
 .build/
+Package.resolved
 
 # Go artifacts
-go.sum
 _obj/
 
 # Python artifacts
@@ -32,7 +32,6 @@ dist/
 /examples/*/
 
 # Grammar volatiles
-dsl.d.ts
 *.wasm
 *.obj
 *.o
