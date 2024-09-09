@@ -38,8 +38,8 @@
     }
   },
   "scripts": {
-    "build": "npx tree-sitter-cli generate --no-bindings",
-    "test": "npx tree-sitter-cli test",
+    "build": "tree-sitter generate --no-bindings",
+    "test": "tree-sitter test",
     "install": "node-gyp-build",
     "prebuildify": "prebuildify --napi --strip"
   },
