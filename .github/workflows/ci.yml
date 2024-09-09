@@ -30,10 +30,14 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-14]
     steps:
-      - name: Set up repository
-        uses: tree-sitter/parser-setup-action@v1.1
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install tree-sitter CLI
+        uses: tree-sitter/setup-action/cli@v1
+      - name: Run tests
+        uses: tree-sitter/parser-test-action@v2
         with:
-          node-version: ${{vars.NODE_VERSION}}
+          test-rust: ${{runner.os == 'Linux'}}
       - name: Clone apisix corpus
         uses: actions/checkout@v4
         with:
@@ -73,11 +77,10 @@ jobs:
         with:
           path: examples/xmake
           repository: xmake-io/xmake
-      - name: Run tests
-        uses: tree-sitter/parser-test-action@v1.2
+      - name: Parse examples
+        uses: tree-sitter/parse-action@v4
         with:
-          test-library: ${{runner.os == 'Linux'}}
-          corpus-files: |-
+          files: |-
             examples/apisix/**/*.lua
             examples/kong/**/*.lua
             examples/lua/**/*.lua
