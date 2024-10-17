@@ -1,10 +1,13 @@
 {
   "name": "@tree-sitter-grammars/tree-sitter-lua",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Lua grammar for tree-sitter",
-  "repository": "tree-sitter-grammars/tree-sitter-lua",
-  "author": "Munif Tanjim (https://muniftanjim.dev)",
+  "repository": "github:tree-sitter-grammars/tree-sitter-lua",
   "license": "MIT",
+  "author": {
+    "name": "Munif Tanjim",
+    "url": "https://muniftanjim.dev"
+  },
   "main": "bindings/node",
   "types": "bindings/node",
   "keywords": [
@@ -18,23 +21,23 @@
     "binding.gyp",
     "prebuilds/**",
     "bindings/node/*",
-    "queries/**",
+    "queries/*",
     "src/**",
     "*.wasm"
   ],
   "dependencies": {
-    "node-addon-api": "^8.0.0",
-    "node-gyp-build": "^4.8.1"
+    "node-addon-api": "^8.1.0",
+    "node-gyp-build": "^4.8.2"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.23.0",
-    "prebuildify": "^6.0.1"
+    "prebuildify": "^6.0.1",
+    "tree-sitter-cli": "^0.24.3"
   },
   "peerDependencies": {
     "tree-sitter": "^0.21.1"
   },
   "peerDependenciesMeta": {
-    "tree_sitter": {
+    "tree-sitter": {
       "optional": true
     }
   },
@@ -43,20 +46,5 @@
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
     "test": "node --test bindings/node/*_test.js"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "tree-sitter": [
-    {
-      "scope": "source.lua",
-      "injection-regex": "^lua$",
-      "highlights": "queries/highlights.scm",
-      "injections": "queries/injections.scm",
-      "tags": "queries/tags.scm",
-      "file-types": [
-        "lua"
-      ]
-    }
-  ]
+  }
 }

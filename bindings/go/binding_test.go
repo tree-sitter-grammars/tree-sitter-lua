@@ -3,8 +3,8 @@ package tree_sitter_lua_test
 import (
 	"testing"
 
-	tree_sitter_lua "github.com/tree-sitter-grammars/tree-sitter-lua/bindings/go"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
+	tree_sitter_lua "github.com/tree-sitter-grammars/tree-sitter-lua/bindings/go"
 )
 
 func TestCanLoadGrammar(t *testing.T) {

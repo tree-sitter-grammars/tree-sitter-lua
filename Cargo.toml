@@ -1,13 +1,13 @@
 [package]
 name = "tree-sitter-lua"
 description = "Lua grammar for tree-sitter"
-version = "0.2.0"
+version = "0.3.0"
+authors = ["Munif Tanjim <hello@muniftanjim.dev>"]
 license = "MIT"
 readme = "README.md"
 keywords = ["incremental", "parsing", "tree-sitter", "lua"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/tree-sitter-grammars/tree-sitter-lua"
-authors = ["Munif Tanjim <hello@muniftanjim.dev>"]
 edition = "2021"
 autoexamples = false
 
@@ -18,10 +18,10 @@ include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter-language = "0.1.0"
+tree-sitter-language = "0.1"
 
 [build-dependencies]
-cc = "1.1.18"
+cc = "1.1.22"
 
 [dev-dependencies]
-tree-sitter = "0.23"
+tree-sitter = "0.24.3"

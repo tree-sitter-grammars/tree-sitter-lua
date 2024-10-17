@@ -1,3 +1,12 @@
+/**
+ * @file Lua grammar for tree-sitter
+ * @author Munif Tanjim
+ * @license MIT
+ */
+
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
+
 const PREC = {
   OR: 1, // or
   AND: 2, // and
