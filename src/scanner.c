@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "tree_sitter/alloc.h"
 #include "tree_sitter/parser.h"
 #include <wctype.h>
 
@@ -51,13 +52,13 @@ static inline void reset_state(Scanner *scanner) {
 }
 
 void *tree_sitter_lua_external_scanner_create() {
-  Scanner *scanner = calloc(1, sizeof(Scanner));
+  Scanner *scanner = ts_calloc(1, sizeof(Scanner));
   return scanner;
 }
 
 void tree_sitter_lua_external_scanner_destroy(void *payload) {
   Scanner *scanner = (Scanner *)payload;
-  free(scanner);
+  ts_free(scanner);
 }
 
 unsigned tree_sitter_lua_external_scanner_serialize(void *payload, char *buffer) {
