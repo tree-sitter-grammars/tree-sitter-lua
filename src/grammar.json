@@ -3095,5 +3095,6 @@
     "expression",
     "declaration",
     "variable"
-  ]
+  ],
+  "reserved": {}
 }
