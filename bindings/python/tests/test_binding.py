@@ -1,6 +1,7 @@
 from unittest import TestCase
 
-import tree_sitter, tree_sitter_lua
+import tree_sitter
+import tree_sitter_lua
 
 
 class TestLanguage(TestCase):
