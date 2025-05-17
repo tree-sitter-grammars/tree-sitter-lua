@@ -64,7 +64,13 @@ exp(
   42LL,
   0x2aULL,
   12.5i,
-  0x.01p-1I
+  0x.01p-1I,
+  0b0,
+  0B10,
+  0b0LL,
+  0B10ull,
+  0b0I,
+  0B0i
 )
 
 --------------------------------------------------------------------------------
@@ -73,6 +79,12 @@ exp(
   (function_call
     name: (identifier)
     arguments: (arguments
+      (number)
+      (number)
+      (number)
+      (number)
+      (number)
+      (number)
       (number)
       (number)
       (number)
