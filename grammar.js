@@ -353,7 +353,16 @@ module.exports = grammar({
         number_literal(hex_digits, 'p', decimal_digits)
       );
 
-      return token(choice(decimal_literal, hex_literal));
+      const bin_digits = /[01]+/;
+      const bin_literal = seq(
+        choice('0b', '0B'),
+        choice(
+          seq(bin_digits, /U?LL/i),
+          seq(bin_digits, optional(choice('i', 'I')))
+        )
+      );
+
+      return token(choice(decimal_literal, hex_literal, bin_literal));
     },
 
     // LiteralString
