@@ -206,6 +206,96 @@
           }
         ]
       },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "%",
+            "named": false
+          },
+          {
+            "type": "&",
+            "named": false
+          },
+          {
+            "type": "*",
+            "named": false
+          },
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": "..",
+            "named": false
+          },
+          {
+            "type": "/",
+            "named": false
+          },
+          {
+            "type": "//",
+            "named": false
+          },
+          {
+            "type": "<",
+            "named": false
+          },
+          {
+            "type": "<<",
+            "named": false
+          },
+          {
+            "type": "<=",
+            "named": false
+          },
+          {
+            "type": "==",
+            "named": false
+          },
+          {
+            "type": ">",
+            "named": false
+          },
+          {
+            "type": ">=",
+            "named": false
+          },
+          {
+            "type": ">>",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
+            "type": "and",
+            "named": false
+          },
+          {
+            "type": "or",
+            "named": false
+          },
+          {
+            "type": "|",
+            "named": false
+          },
+          {
+            "type": "~",
+            "named": false
+          },
+          {
+            "type": "~=",
+            "named": false
+          }
+        ]
+      },
       "right": {
         "multiple": false,
         "required": true,
@@ -360,7 +450,7 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "member_identifier",
             "named": true
           }
         ]
@@ -471,7 +561,7 @@
             "named": true
           },
           {
-            "type": "identifier",
+            "type": "member_identifier",
             "named": true
           }
         ]
@@ -625,16 +715,6 @@
     "type": "function_declaration",
     "named": true,
     "fields": {
-      "body": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "block",
-            "named": true
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": true,
@@ -652,21 +732,36 @@
             "named": true
           }
         ]
-      },
-      "parameters": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "parameters",
-            "named": true
-          }
-        ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "function_scope",
+          "named": true
+        }
+      ]
     }
   },
   {
     "type": "function_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "function_scope",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_scope",
     "named": true,
     "fields": {
       "body": {
@@ -770,7 +865,7 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "member_identifier",
             "named": true
           }
         ]
@@ -970,6 +1065,28 @@
           {
             "type": "expression",
             "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": "not",
+            "named": false
+          },
+          {
+            "type": "~",
+            "named": false
           }
         ]
       }
@@ -1241,6 +1358,10 @@
   {
     "type": "local",
     "named": false
+  },
+  {
+    "type": "member_identifier",
+    "named": true
   },
   {
     "type": "nil",
