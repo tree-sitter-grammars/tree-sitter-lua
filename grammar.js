@@ -222,10 +222,10 @@ module.exports = grammar({
       ),
     // function funcname funcbody
     function_declaration: ($) =>
-      seq('function', field('name', $._function_name), $._function_body),
+      seq('function', field('name', $._function_name), $.function_scope),
     // local function Name funcbody
     _local_function_declaration: ($) =>
-      seq('local', 'function', field('name', $.identifier), $._function_body),
+      seq('local', 'function', field('name', $.identifier), $.function_scope),
     // funcname ::= Name {'.' Name} [':' Name]
     _function_name: ($) =>
       choice(
@@ -244,13 +244,13 @@ module.exports = grammar({
       seq(
         field('table', $._function_name_prefix_expression),
         '.',
-        field('field', $.identifier)
+        field('field', alias($.identifier, $.member_identifier))
       ),
     _function_name_method_index_expression: ($) =>
       seq(
         field('table', $._function_name_prefix_expression),
         ':',
-        field('method', $.identifier)
+        field('method', alias($.identifier, $.member_identifier))
       ),
 
     // local namelist ['=' explist]
@@ -419,9 +419,9 @@ module.exports = grammar({
     vararg_expression: (_) => '...',
 
     // functiondef ::= function funcbody
-    function_definition: ($) => seq('function', $._function_body),
+    function_definition: ($) => seq('function', $.function_scope),
     // funcbody ::= '(' [parlist] ')' block end
-    _function_body: ($) =>
+    function_scope: ($) =>
       seq(
         field('parameters', $.parameters),
         field('body', optional_block($)),
@@ -456,7 +456,7 @@ module.exports = grammar({
       seq(
         field('table', $._prefix_expression),
         '.',
-        field('field', $.identifier)
+        field('field', alias($.identifier, $.member_identifier))
       ),
 
     // functioncall ::=  prefixexp args | prefixexp ':' Name args
@@ -470,7 +470,7 @@ module.exports = grammar({
       seq(
         field('table', $._prefix_expression),
         ':',
-        field('method', $.identifier)
+        field('method', alias($.identifier, $.member_identifier))
       ),
     // args ::=  '(' [explist] ')' | tableconstructor | LiteralString
     arguments: ($) =>
@@ -499,7 +499,11 @@ module.exports = grammar({
           '=',
           field('value', $.expression)
         ),
-        seq(field('name', $.identifier), '=', field('value', $.expression)),
+        seq(
+          field('name', alias($.identifier, $.member_identifier)),
+          '=',
+          field('value', $.expression),
+        ),
         field('value', $.expression)
       ),
 

@@ -1,36 +1,18 @@
-; Scopes
+;; Scopes
 
-[
-  (chunk)
-  (do_statement)
-  (while_statement)
-  (repeat_statement)
-  (if_statement)
-  (for_statement)
-  (function_declaration)
-  (function_definition)
-] @local.scope
+[(chunk)
+ (block)
+ (function_scope)] @local.scope
 
-; Definitions
+;; Definitions
 
-(assignment_statement
-  (variable_list
-    (identifier) @local.definition))
+(function_declaration name: (identifier) @local.definition)
+(parameters name: _ @local.definition)
+(variable_declaration (variable_list name: _ @local.definition))
+(variable_declaration (assignment_statement (variable_list name: _ @local.definition)))
+(for_generic_clause (variable_list name: _ @local.definition))
+(for_numeric_clause name: _ @local.definition)
 
-(function_declaration
-  name: (identifier) @local.definition)
+;; References
 
-(for_generic_clause
-  (variable_list
-    (identifier) @local.definition))
-
-(for_numeric_clause
-  name: (identifier) @local.definition)
-
-(parameters (identifier) @local.definition)
-
-; References
-
-[
-  (identifier)
-] @local.reference
+(identifier) @local.reference
