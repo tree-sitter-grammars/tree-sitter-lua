@@ -72,7 +72,7 @@ f4(a1)("a2") { a3 = "a3" }
   (function_call
     name: (dot_index_expression
       table: (identifier)
-      field: (identifier))
+      field: (member_identifier))
     arguments: (arguments))
   (function_call
     name: (bracket_index_expression
@@ -84,8 +84,8 @@ f4(a1)("a2") { a3 = "a3" }
     name: (method_index_expression
       table: (dot_index_expression
         table: (identifier)
-        field: (identifier))
-      method: (identifier))
+        field: (member_identifier))
+      method: (member_identifier))
     arguments: (arguments))
   (function_call
     name: (function_call
@@ -99,7 +99,7 @@ f4(a1)("a2") { a3 = "a3" }
     arguments: (arguments
       (table_constructor
         (field
-          name: (identifier)
+          name: (member_identifier)
           value: (string
             content: (string_content)))))))
 
@@ -397,19 +397,19 @@ local function f5() end
   (function_declaration
     name: (dot_index_expression
       table: (identifier)
-      field: (identifier))
+      field: (member_identifier))
     parameters: (parameters))
   (function_declaration
     name: (method_index_expression
       table: (identifier)
-      method: (identifier))
+      method: (member_identifier))
     parameters: (parameters))
   (function_declaration
     name: (method_index_expression
       table: (dot_index_expression
         table: (identifier)
-        field: (identifier))
-      method: (identifier))
+        field: (member_identifier))
+      method: (member_identifier))
     parameters: (parameters))
   (function_declaration
     name: (identifier)
@@ -462,7 +462,7 @@ local v4, v4 = f1(), tbl:f2()
         value: (function_call
           name: (method_index_expression
             table: (identifier)
-            method: (identifier))
+            method: (member_identifier))
           arguments: (arguments))))))
 
 ================================================================================
@@ -496,7 +496,7 @@ local f <close> = io.open('/file.lua')
         value: (function_call
           name: (dot_index_expression
             table: (identifier)
-            field: (identifier))
+            field: (member_identifier))
           arguments: (arguments
             (string
               content: (string_content))))))))

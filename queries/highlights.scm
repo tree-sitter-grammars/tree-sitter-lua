@@ -133,9 +133,7 @@
 
 ;; Tables
 
-(field name: (identifier) @field)
-
-(dot_index_expression field: (identifier) @field)
+(member_identifier) @field
 
 (table_constructor
 [
@@ -151,45 +149,44 @@
   name: [
     (identifier) @function
     (dot_index_expression
-      field: (identifier) @function)
+      field: (member_identifier) @function)
   ])
 
 (function_declaration
   name: (method_index_expression
-    method: (identifier) @method))
+    method: (member_identifier) @method))
 
 (assignment_statement
   (variable_list .
     name: [
       (identifier) @function
       (dot_index_expression
-        field: (identifier) @function)
+        field: (member_identifier) @function)
     ])
   (expression_list .
     value: (function_definition)))
 
 (table_constructor
   (field
-    name: (identifier) @function
+    name: (member_identifier) @function
     value: (function_definition)))
 
 (function_call
   name: [
     (identifier) @function.call
     (dot_index_expression
-      field: (identifier) @function.call)
+      field: (member_identifier) @function.call)
     (method_index_expression
-      method: (identifier) @method.call)
+      method: (member_identifier) @method.call)
   ])
 
-(function_call
-  (identifier) @function.builtin
-  (#any-of? @function.builtin
-    ;; built-in functions in Lua 5.1
-    "assert" "collectgarbage" "dofile" "error" "getfenv" "getmetatable" "ipairs"
-    "load" "loadfile" "loadstring" "module" "next" "pairs" "pcall" "print"
-    "rawequal" "rawget" "rawset" "require" "select" "setfenv" "setmetatable"
-    "tonumber" "tostring" "type" "unpack" "xpcall"))
+((identifier) @function.builtin
+ (#any-of? @function.builtin
+  ;; built-in functions in Lua 5.1
+  "assert" "collectgarbage" "dofile" "error" "getfenv" "getmetatable" "ipairs"
+  "load" "loadfile" "loadstring" "module" "next" "pairs" "pcall" "print"
+  "rawequal" "rawget" "rawset" "require" "select" "setfenv" "setmetatable"
+  "tonumber" "tostring" "type" "unpack" "xpcall"))
 
 ;; Others
 
