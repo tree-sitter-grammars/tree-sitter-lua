@@ -244,13 +244,13 @@ module.exports = grammar({
       seq(
         field('table', $._function_name_prefix_expression),
         '.',
-        field('field', $.identifier)
+        field('field', alias($.identifier, $.member_identifier))
       ),
     _function_name_method_index_expression: ($) =>
       seq(
         field('table', $._function_name_prefix_expression),
         ':',
-        field('method', $.identifier)
+        field('method', alias($.identifier, $.member_identifier))
       ),
 
     // local namelist ['=' explist]
@@ -456,7 +456,7 @@ module.exports = grammar({
       seq(
         field('table', $._prefix_expression),
         '.',
-        field('field', $.identifier)
+        field('field', alias($.identifier, $.member_identifier))
       ),
 
     // functioncall ::=  prefixexp args | prefixexp ':' Name args
@@ -470,7 +470,7 @@ module.exports = grammar({
       seq(
         field('table', $._prefix_expression),
         ':',
-        field('method', $.identifier)
+        field('method', alias($.identifier, $.member_identifier))
       ),
     // args ::=  '(' [explist] ')' | tableconstructor | LiteralString
     arguments: ($) =>
@@ -499,7 +499,11 @@ module.exports = grammar({
           '=',
           field('value', $.expression)
         ),
-        seq(field('name', $.identifier), '=', field('value', $.expression)),
+        seq(
+          field('name', alias($.identifier, $.member_identifier)),
+          '=',
+          field('value', $.expression),
+        ),
         field('value', $.expression)
       ),
 

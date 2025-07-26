@@ -451,7 +451,7 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "member_identifier",
             "named": true
           }
         ]
@@ -562,7 +562,7 @@
             "named": true
           },
           {
-            "type": "identifier",
+            "type": "member_identifier",
             "named": true
           }
         ]
@@ -861,7 +861,7 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "member_identifier",
             "named": true
           }
         ]
@@ -1354,6 +1354,10 @@
   {
     "type": "local",
     "named": false
+  },
+  {
+    "type": "member_identifier",
+    "named": true
   },
   {
     "type": "nil",

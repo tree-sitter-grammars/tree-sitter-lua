@@ -397,7 +397,7 @@ v2 = tbl.k1.k2
     (expression_list
       value: (dot_index_expression
         table: (identifier)
-        field: (identifier))))
+        field: (member_identifier))))
   (assignment_statement
     (variable_list
       name: (identifier))
@@ -405,8 +405,8 @@ v2 = tbl.k1.k2
       value: (dot_index_expression
         table: (dot_index_expression
           table: (identifier)
-          field: (identifier))
-        field: (identifier)))))
+          field: (member_identifier))
+        field: (member_identifier)))))
 
 ================================================================================
 function_call ::: bracket_index_expression | dot_index_expression
@@ -430,7 +430,7 @@ v3 = tbl[k1] "a1"
           table: (bracket_index_expression
             table: (identifier)
             field: (identifier))
-          field: (identifier))
+          field: (member_identifier))
         arguments: (arguments
           (identifier)
           (string
@@ -449,7 +449,7 @@ v3 = tbl[k1] "a1"
         arguments: (arguments
           (table_constructor
             (field
-              name: (identifier)
+              name: (member_identifier)
               value: (true)))))))
   (assignment_statement
     (variable_list
@@ -480,8 +480,8 @@ tbl:m1 "a1"
     name: (method_index_expression
       table: (dot_index_expression
         table: (identifier)
-        field: (identifier))
-      method: (identifier))
+        field: (member_identifier))
+      method: (member_identifier))
     arguments: (arguments
       (identifier)
       (string
@@ -491,7 +491,7 @@ tbl:m1 "a1"
       table: (bracket_index_expression
         table: (identifier)
         field: (identifier))
-      method: (identifier))
+      method: (member_identifier))
     arguments: (arguments
       (table_constructor
         (field
@@ -502,7 +502,7 @@ tbl:m1 "a1"
   (function_call
     name: (method_index_expression
       table: (identifier)
-      method: (identifier))
+      method: (member_identifier))
     arguments: (arguments
       (string
         content: (string_content)))))
@@ -539,7 +539,8 @@ table_constructor
 tbl1 = {
   ["k1"] = {
     ['k2'] = true,
-    k3 = false
+    k3 = false,
+    [k4] = true,
   }
 }
 
@@ -568,8 +569,11 @@ local tbl3 = { "v1", k1 = "v2" }
                 content: (string_content))
               value: (true))
             (field
+              name: (member_identifier)
+              value: (false))
+            (field
               name: (identifier)
-              value: (false)))))))
+              value: (true)))))))
   local_declaration: (variable_declaration
     (assignment_statement
       (variable_list
@@ -577,7 +581,7 @@ local tbl3 = { "v1", k1 = "v2" }
       (expression_list
         value: (table_constructor
           (field
-            name: (identifier)
+            name: (member_identifier)
             value: (table_constructor
               (field
                 value: (table_constructor
@@ -597,7 +601,7 @@ local tbl3 = { "v1", k1 = "v2" }
             value: (string
               content: (string_content)))
           (field
-            name: (identifier)
+            name: (member_identifier)
             value: (string
               content: (string_content))))))))
 
