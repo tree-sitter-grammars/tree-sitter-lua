@@ -20,6 +20,10 @@
 (function_declaration
   name: (identifier) @local.definition)
 
+(global_variable_declaration
+  (variable_list
+    (identifier) @local.definition))
+
 (for_generic_clause
   (variable_list
     (identifier) @local.definition))
@@ -28,6 +32,9 @@
   name: (identifier) @local.definition)
 
 (parameters (identifier) @local.definition)
+
+(named_vararg
+  name: (identifier) @local.definition)
 
 ; References
 

@@ -500,3 +500,153 @@ local f <close> = io.open('/file.lua')
           arguments: (arguments
             (string
               content: (string_content))))))))
+
+================================================================================
+global_variable_declaration [Lua 5.5]
+================================================================================
+
+global g1 = 1
+global g2, g3 = 2, 3
+
+global g4, g5 = f1(), tbl:f2()
+
+--------------------------------------------------------------------------------
+
+(chunk
+  global_declaration: (global_variable_declaration
+    (assignment_statement
+      (variable_list
+        name: (identifier))
+      (expression_list
+        value: (number))))
+  global_declaration: (global_variable_declaration
+    (assignment_statement
+      (variable_list
+        name: (identifier)
+        name: (identifier))
+      (expression_list
+        value: (number)
+        value: (number))))
+  global_declaration: (global_variable_declaration
+    (assignment_statement
+      (variable_list
+        name: (identifier)
+        name: (identifier))
+      (expression_list
+        value: (function_call
+          name: (identifier)
+          arguments: (arguments))
+        value: (function_call
+          name: (method_index_expression
+            table: (identifier)
+            method: (identifier))
+          arguments: (arguments))))))
+
+================================================================================
+global_variable_declaration ::: attribute [Lua 5.5]
+================================================================================
+
+global c <const>, x <const> = 42
+global f <close> = io.open('/file.lua')
+
+--------------------------------------------------------------------------------
+
+(chunk
+  global_declaration: (global_variable_declaration
+    (assignment_statement
+      (variable_list
+        name: (identifier)
+        attribute: (attribute
+          (identifier))
+        name: (identifier)
+        attribute: (attribute
+          (identifier)))
+      (expression_list
+        value: (number))))
+  global_declaration: (global_variable_declaration
+    (assignment_statement
+      (variable_list
+        name: (identifier)
+        attribute: (attribute
+          (identifier)))
+      (expression_list
+        value: (function_call
+          name: (dot_index_expression
+            table: (identifier)
+            field: (identifier))
+          arguments: (arguments
+            (string
+              content: (string_content))))))))
+
+================================================================================
+global_function_declaration [Lua 5.5]
+================================================================================
+
+global function gf1() end
+global function gf2() print("global") end
+
+--------------------------------------------------------------------------------
+
+(chunk
+  global_declaration: (function_declaration
+    name: (identifier)
+    parameters: (parameters))
+  global_declaration: (function_declaration
+    name: (identifier)
+    parameters: (parameters)
+    body: (block
+      (function_call
+        name: (identifier)
+        arguments: (arguments
+          (string
+            content: (string_content)))))))
+
+================================================================================
+global_mode_statement [Lua 5.5]
+================================================================================
+
+global *
+global <const> *
+
+--------------------------------------------------------------------------------
+
+(chunk
+  (global_mode_statement)
+  (global_mode_statement
+    attribute: (attribute
+      (identifier))))
+
+================================================================================
+named_vararg [Lua 5.5]
+================================================================================
+
+function f(...args) end
+function g(a, b, ...rest) end
+local function h(...items)
+  return items
+end
+
+--------------------------------------------------------------------------------
+
+(chunk
+  (function_declaration
+    name: (identifier)
+    parameters: (parameters
+      (named_vararg
+        name: (identifier))))
+  (function_declaration
+    name: (identifier)
+    parameters: (parameters
+      name: (identifier)
+      name: (identifier)
+      (named_vararg
+        name: (identifier))))
+  local_declaration: (function_declaration
+    name: (identifier)
+    parameters: (parameters
+      (named_vararg
+        name: (identifier)))
+    body: (block
+      (return_statement
+        (expression_list
+          (identifier))))))

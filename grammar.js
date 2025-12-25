@@ -99,7 +99,15 @@ module.exports = grammar({
         $.repeat_statement,
         $.if_statement,
         $.for_statement,
-        $.declaration
+        $.declaration,
+        $.global_mode_statement
+      ),
+    // global * | global <attrib> * [Lua 5.5]
+    global_mode_statement: ($) =>
+      seq(
+        'global',
+        optional(field('attribute', alias($._attrib, $.attribute))),
+        '*'
       ),
 
     // retstat ::= return [explist] [';']
@@ -211,6 +219,8 @@ module.exports = grammar({
     // function funcname funcbody
     // local function Name funcbody
     // local namelist ['=' explist]
+    // global function Name funcbody [Lua 5.5]
+    // global namelist ['=' explist] [Lua 5.5]
     declaration: ($) =>
       choice(
         $.function_declaration,
@@ -218,7 +228,12 @@ module.exports = grammar({
           'local_declaration',
           alias($._local_function_declaration, $.function_declaration)
         ),
-        field('local_declaration', $.variable_declaration)
+        field('local_declaration', $.variable_declaration),
+        field(
+          'global_declaration',
+          alias($._global_function_declaration, $.function_declaration)
+        ),
+        field('global_declaration', $.global_variable_declaration)
       ),
     // function funcname funcbody
     function_declaration: ($) =>
@@ -226,6 +241,9 @@ module.exports = grammar({
     // local function Name funcbody
     _local_function_declaration: ($) =>
       seq('local', 'function', field('name', $.identifier), $._function_body),
+    // global function Name funcbody [Lua 5.5]
+    _global_function_declaration: ($) =>
+      seq('global', 'function', field('name', $.identifier), $._function_body),
     // funcname ::= Name {'.' Name} [':' Name]
     _function_name: ($) =>
       choice(
@@ -262,7 +280,22 @@ module.exports = grammar({
           alias($._local_variable_assignment, $.assignment_statement)
         )
       ),
+    // global namelist ['=' explist] [Lua 5.5]
+    global_variable_declaration: ($) =>
+      seq(
+        'global',
+        choice(
+          alias($._att_name_list, $.variable_list),
+          alias($._global_variable_assignment, $.assignment_statement)
+        )
+      ),
     _local_variable_assignment: ($) =>
+      seq(
+        alias($._att_name_list, $.variable_list),
+        '=',
+        alias($._variable_assignment_explist, $.expression_list)
+      ),
+    _global_variable_assignment: ($) =>
       seq(
         alias($._att_name_list, $.variable_list),
         '=',
@@ -429,12 +462,15 @@ module.exports = grammar({
       ),
     // '(' [parlist] ')'
     parameters: ($) => seq('(', optional($._parameter_list), ')'),
-    // parlist ::= namelist [',' '...'] | '...'
+    // parlist ::= namelist [',' '...'] | '...' | namelist [',' '...' Name] | '...' Name [Lua 5.5]
     _parameter_list: ($) =>
       choice(
-        seq(name_list($), optional(seq(',', $.vararg_expression))),
-        $.vararg_expression
+        seq(name_list($), optional(seq(',', choice($.vararg_expression, $.named_vararg)))),
+        $.vararg_expression,
+        $.named_vararg
       ),
+    // '...' Name [Lua 5.5]
+    named_vararg: ($) => seq('...', field('name', $.identifier)),
 
     // prefixexp ::= var | functioncall | '(' exp ')'
     _prefix_expression: ($) =>

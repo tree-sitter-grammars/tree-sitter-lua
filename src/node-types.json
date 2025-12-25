@@ -8,6 +8,10 @@
         "named": true
       },
       {
+        "type": "global_variable_declaration",
+        "named": true
+      },
+      {
         "type": "variable_declaration",
         "named": true
       }
@@ -101,6 +105,10 @@
       },
       {
         "type": "function_call",
+        "named": true
+      },
+      {
+        "type": "global_mode_statement",
         "named": true
       },
       {
@@ -783,6 +791,41 @@
     }
   },
   {
+    "type": "global_mode_statement",
+    "named": true,
+    "fields": {
+      "attribute": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "global_variable_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment_statement",
+          "named": true
+        },
+        {
+          "type": "variable_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "goto_statement",
     "named": true,
     "fields": {},
@@ -887,6 +930,22 @@
     }
   },
   {
+    "type": "named_vararg",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "parameters",
     "named": true,
     "fields": {
@@ -905,6 +964,10 @@
       "multiple": false,
       "required": false,
       "types": [
+        {
+          "type": "named_vararg",
+          "named": true
+        },
         {
           "type": "vararg_expression",
           "named": true
@@ -1089,6 +1152,11 @@
     }
   },
   {
+    "type": "vararg_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "variable_declaration",
     "named": true,
     "fields": {},
@@ -1216,6 +1284,10 @@
     "named": false
   },
   {
+    "type": "...",
+    "named": false
+  },
+  {
     "type": "/",
     "named": false
   },
@@ -1332,6 +1404,10 @@
     "named": false
   },
   {
+    "type": "global",
+    "named": false
+  },
+  {
     "type": "goto",
     "named": false
   },
@@ -1390,10 +1466,6 @@
   {
     "type": "until",
     "named": false
-  },
-  {
-    "type": "vararg_expression",
-    "named": true
   },
   {
     "type": "while",
