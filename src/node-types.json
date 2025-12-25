@@ -809,7 +809,18 @@
   {
     "type": "global_variable_declaration",
     "named": true,
-    "fields": {},
+    "fields": {
+      "attribute": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": true,

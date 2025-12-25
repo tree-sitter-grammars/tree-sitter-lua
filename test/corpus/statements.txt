@@ -549,6 +549,9 @@ global_variable_declaration ::: attribute [Lua 5.5]
 global c <const>, x <const> = 42
 global f <close> = io.open('/file.lua')
 
+global <const> a, b, c = 1, 2, 3
+global <const> MAX, MIN
+
 --------------------------------------------------------------------------------
 
 (chunk
@@ -576,7 +579,25 @@ global f <close> = io.open('/file.lua')
             field: (identifier))
           arguments: (arguments
             (string
-              content: (string_content))))))))
+              content: (string_content)))))))
+  global_declaration: (global_variable_declaration
+    attribute: (attribute
+      (identifier))
+    (assignment_statement
+      (variable_list
+        name: (identifier)
+        name: (identifier)
+        name: (identifier))
+      (expression_list
+        value: (number)
+        value: (number)
+        value: (number))))
+  global_declaration: (global_variable_declaration
+    attribute: (attribute
+      (identifier))
+    (variable_list
+      name: (identifier)
+      name: (identifier))))
 
 ================================================================================
 global_function_declaration [Lua 5.5]

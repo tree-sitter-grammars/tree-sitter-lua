@@ -281,10 +281,20 @@ module.exports = grammar({
         )
       ),
     // global namelist ['=' explist] [Lua 5.5]
+    // global <attrib> namelist ['=' explist] [Lua 5.5]
     global_variable_declaration: ($) =>
       seq(
         'global',
         choice(
+          // global <attrib> namelist ['=' explist]
+          seq(
+            field('attribute', alias($._attrib, $.attribute)),
+            choice(
+              alias($._name_list, $.variable_list),
+              alias($._global_prefixed_variable_assignment, $.assignment_statement)
+            )
+          ),
+          // global namelist ['=' explist]
           alias($._att_name_list, $.variable_list),
           alias($._global_variable_assignment, $.assignment_statement)
         )
@@ -298,6 +308,12 @@ module.exports = grammar({
     _global_variable_assignment: ($) =>
       seq(
         alias($._att_name_list, $.variable_list),
+        '=',
+        alias($._variable_assignment_explist, $.expression_list)
+      ),
+    _global_prefixed_variable_assignment: ($) =>
+      seq(
+        alias($._name_list, $.variable_list),
         '=',
         alias($._variable_assignment_explist, $.expression_list)
       ),

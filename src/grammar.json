@@ -1010,6 +1010,47 @@
           "type": "CHOICE",
           "members": [
             {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "attribute",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_attrib"
+                    },
+                    "named": true,
+                    "value": "attribute"
+                  }
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "_name_list"
+                      },
+                      "named": true,
+                      "value": "variable_list"
+                    },
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "_global_prefixed_variable_assignment"
+                      },
+                      "named": true,
+                      "value": "assignment_statement"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
               "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
@@ -1066,6 +1107,33 @@
           "content": {
             "type": "SYMBOL",
             "name": "_att_name_list"
+          },
+          "named": true,
+          "value": "variable_list"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_variable_assignment_explist"
+          },
+          "named": true,
+          "value": "expression_list"
+        }
+      ]
+    },
+    "_global_prefixed_variable_assignment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_name_list"
           },
           "named": true,
           "value": "variable_list"
