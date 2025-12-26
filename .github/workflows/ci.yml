@@ -30,7 +30,7 @@ jobs:
         uses: tree-sitter/parser-test-action@v2
 
       - name: Clone apisix corpus
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: examples/apisix
           repository: apache/apisix
@@ -111,7 +111,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up tree-sitter
         uses: tree-sitter/setup-action@v2
