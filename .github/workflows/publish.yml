@@ -5,9 +5,9 @@ on:
     tags: ["*"]
   workflow_dispatch:
 
-permissions:
-  contents: write
-  id-token: write
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
 
 jobs:
   npm:
