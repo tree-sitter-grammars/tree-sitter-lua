@@ -32,7 +32,7 @@ const optional_block = ($) => alias(optional($._block), $.block);
 // namelist ::= Name {',' Name}
 const name_list = ($) => list_seq(field('name', $.identifier), ',');
 
-module.exports = grammar({
+export default grammar({
   name: 'lua',
 
   extras: ($) => [$.comment, /\s/],

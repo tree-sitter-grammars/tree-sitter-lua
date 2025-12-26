@@ -2,6 +2,7 @@
   "name": "@tree-sitter-grammars/tree-sitter-lua",
   "version": "0.4.0",
   "description": "Lua grammar for tree-sitter",
+  "type": "module",
   "repository": "https://github.com/tree-sitter-grammars/tree-sitter-lua",
   "license": "MIT",
   "author": {
@@ -28,7 +29,7 @@
     "*.wasm"
   ],
   "dependencies": {
-    "node-addon-api": "^8.3.1",
+    "node-addon-api": "^8.5.0",
     "node-gyp-build": "^4.8.4"
   },
   "devDependencies": {
