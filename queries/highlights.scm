@@ -1,11 +1,10 @@
-;; Keywords
-
+; Keywords
 "return" @keyword.return
 
 [
- "goto"
- "in"
- "local"
+  "goto"
+  "in"
+  "local"
 ] @keyword
 
 (label_statement) @label
@@ -13,79 +12,79 @@
 (break_statement) @keyword
 
 (do_statement
-[
-  "do"
-  "end"
-] @keyword)
+  [
+    "do"
+    "end"
+  ] @keyword)
 
 (while_statement
-[
-  "while"
-  "do"
-  "end"
-] @repeat)
+  [
+    "while"
+    "do"
+    "end"
+  ] @repeat)
 
 (repeat_statement
-[
-  "repeat"
-  "until"
-] @repeat)
+  [
+    "repeat"
+    "until"
+  ] @repeat)
 
 (if_statement
-[
-  "if"
-  "elseif"
-  "else"
-  "then"
-  "end"
-] @conditional)
+  [
+    "if"
+    "elseif"
+    "else"
+    "then"
+    "end"
+  ] @conditional)
 
 (elseif_statement
-[
-  "elseif"
-  "then"
-  "end"
-] @conditional)
+  [
+    "elseif"
+    "then"
+    "end"
+  ] @conditional)
 
 (else_statement
-[
-  "else"
-  "end"
-] @conditional)
+  [
+    "else"
+    "end"
+  ] @conditional)
 
 (for_statement
-[
-  "for"
-  "do"
-  "end"
-] @repeat)
+  [
+    "for"
+    "do"
+    "end"
+  ] @repeat)
 
 (function_declaration
-[
-  "function"
-  "end"
-] @keyword.function)
+  [
+    "function"
+    "end"
+  ] @keyword.function)
 
 (function_definition
+  [
+    "function"
+    "end"
+  ] @keyword.function)
+
+; Operators
+(binary_expression
+  operator: _ @operator)
+
+(unary_expression
+  operator: _ @operator)
+
 [
-  "function"
-  "end"
-] @keyword.function)
-
-;; Operators
-
-(binary_expression operator: _ @operator)
-
-(unary_expression operator: _ @operator)
-
-[
- "and"
- "not"
- "or"
+  "and"
+  "not"
+  "or"
 ] @keyword.operator
 
-;; Punctuations
-
+; Punctuations
 [
   ";"
   ":"
@@ -93,23 +92,21 @@
   "."
 ] @punctuation.delimiter
 
-;; Brackets
-
+; Brackets
 [
- "("
- ")"
- "["
- "]"
- "{"
- "}"
+  "("
+  ")"
+  "["
+  "]"
+  "{"
+  "}"
 ] @punctuation.bracket
 
-;; Variables
-
+; Variables
 (identifier) @variable
 
 ((identifier) @variable.builtin
- (#eq? @variable.builtin "self"))
+  (#eq? @variable.builtin "self"))
 
 (variable_list
   (attribute
@@ -117,10 +114,9 @@
     (identifier) @attribute
     ">" @punctuation.bracket))
 
-;; Constants
-
+; Constants
 ((identifier) @constant
- (#match? @constant "^[A-Z][A-Z_0-9]*$"))
+  (#match? @constant "^[A-Z][A-Z_0-9]*$"))
 
 (vararg_expression) @constant
 
@@ -131,21 +127,22 @@
   (true)
 ] @boolean
 
-;; Tables
+; Tables
+(field
+  name: (identifier) @field)
 
-(field name: (identifier) @field)
-
-(dot_index_expression field: (identifier) @field)
+(dot_index_expression
+  field: (identifier) @field)
 
 (table_constructor
-[
-  "{"
-  "}"
-] @constructor)
+  [
+    "{"
+    "}"
+  ] @constructor)
 
-;; Functions
-
-(parameters (identifier) @parameter)
+; Functions
+(parameters
+  (identifier) @parameter)
 
 (function_declaration
   name: [
@@ -159,13 +156,15 @@
     method: (identifier) @method))
 
 (assignment_statement
-  (variable_list .
+  (variable_list
+    .
     name: [
       (identifier) @function
       (dot_index_expression
         field: (identifier) @function)
     ])
-  (expression_list .
+  (expression_list
+    .
     value: (function_definition)))
 
 (table_constructor
@@ -185,14 +184,12 @@
 (function_call
   (identifier) @function.builtin
   (#any-of? @function.builtin
-    ;; built-in functions in Lua 5.1
-    "assert" "collectgarbage" "dofile" "error" "getfenv" "getmetatable" "ipairs"
-    "load" "loadfile" "loadstring" "module" "next" "pairs" "pcall" "print"
-    "rawequal" "rawget" "rawset" "require" "select" "setfenv" "setmetatable"
-    "tonumber" "tostring" "type" "unpack" "xpcall"))
+    ; built-in functions in Lua 5.1
+    "assert" "collectgarbage" "dofile" "error" "getfenv" "getmetatable" "ipairs" "load" "loadfile"
+    "loadstring" "module" "next" "pairs" "pcall" "print" "rawequal" "rawget" "rawset" "require"
+    "select" "setfenv" "setmetatable" "tonumber" "tostring" "type" "unpack" "xpcall"))
 
-;; Others
-
+; Others
 (comment) @comment
 
 (hash_bang_line) @preproc

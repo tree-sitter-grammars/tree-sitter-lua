@@ -1,5 +1,4 @@
 ; Scopes
-
 [
   (chunk)
   (do_statement)
@@ -12,7 +11,6 @@
 ] @local.scope
 
 ; Definitions
-
 (assignment_statement
   (variable_list
     (identifier) @local.definition))
@@ -27,10 +25,8 @@
 (for_numeric_clause
   name: (identifier) @local.definition)
 
-(parameters (identifier) @local.definition)
+(parameters
+  (identifier) @local.definition)
 
 ; References
-
-[
-  (identifier)
-] @local.reference
+(identifier) @local.reference
