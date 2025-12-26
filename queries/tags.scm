@@ -10,13 +10,15 @@
     method: (identifier) @name)) @definition.method
 
 (assignment_statement
-  (variable_list .
+  (variable_list
+    .
     name: [
       (identifier) @name
       (dot_index_expression
         field: (identifier) @name)
     ])
-  (expression_list .
+  (expression_list
+    .
     value: (function_definition))) @definition.function
 
 (table_constructor
