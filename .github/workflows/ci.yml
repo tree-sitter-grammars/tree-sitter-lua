@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
@@ -20,12 +21,10 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up tree-sitter
-        uses: tree-sitter/setup-action@v2
-        with:
-          install-lib: false
+        uses: tree-sitter/setup-action/cli@v2
 
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
@@ -37,25 +36,25 @@ jobs:
           repository: apache/apisix
           sparse-checkout: apisix/
       - name: Clone kong corpus
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: examples/kong
           repository: Kong/kong
           sparse-checkout: kong/
       - name: Clone lua corpus
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: examples/lua
           repository: lua/lua
           ref: e05590591410a5e007a1e3f1691f6c1cf9d8fe45
           sparse-checkout: testes/
       - name: Clone luvit corpus
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: examples/luvit
           repository: luvit/luvit
       - name: Clone neovim corpus
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: examples/neovim
           repository: neovim/neovim
@@ -65,7 +64,7 @@ jobs:
             /scripts/**/*.lua
             /runtime/**/*.lua
       - name: Clone xmake corpus
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         if: runner.os != 'Windows'
         with:
           path: examples/xmake
@@ -92,7 +91,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 2
       - name: Check for scanner changes
@@ -106,3 +105,25 @@ jobs:
       - name: Fuzz parser
         uses: tree-sitter/fuzz-action@v4
         if: steps.scanner-changes.outputs.changed == 'true'
+
+  query:
+    name: Validate queries
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up repository
+        uses: actions/checkout@v4
+
+      - name: Set up tree-sitter
+        uses: tree-sitter/setup-action@v2
+        with:
+          install-lib: false
+
+      - name: Build parser
+        run: tree-sitter build
+
+      - name: Set up ts_query_ls
+        run: curl -fL https://github.com/ribru17/ts_query_ls/releases/latest/download/ts_query_ls-x86_64-unknown-linux-gnu.tar.gz | tar -xz
+
+      - name: Check queries
+        run: ./ts_query_ls check -f queries/
+
