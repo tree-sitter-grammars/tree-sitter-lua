@@ -8,6 +8,10 @@
         "named": true
       },
       {
+        "type": "implicit_variable_declaration",
+        "named": true
+      },
+      {
         "type": "variable_declaration",
         "named": true
       }
@@ -838,6 +842,22 @@
     }
   },
   {
+    "type": "implicit_variable_declaration",
+    "named": true,
+    "fields": {
+      "attribute": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "label_statement",
     "named": true,
     "fields": {},
@@ -1329,6 +1349,10 @@
   },
   {
     "type": "function",
+    "named": false
+  },
+  {
+    "type": "global",
     "named": false
   },
   {

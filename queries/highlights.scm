@@ -5,6 +5,7 @@
   "goto"
   "in"
   "local"
+  "global"
 ] @keyword
 
 (label_statement) @label
