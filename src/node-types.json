@@ -142,6 +142,10 @@
         "named": true
       },
       {
+        "type": "global",
+        "named": false
+      },
+      {
         "type": "identifier",
         "named": true
       }

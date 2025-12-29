@@ -2212,6 +2212,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "_contextual_keyword"
+        },
+        {
+          "type": "SYMBOL",
           "name": "identifier"
         },
         {
@@ -3385,6 +3389,10 @@
           ]
         }
       ]
+    },
+    "_contextual_keyword": {
+      "type": "STRING",
+      "value": "global"
     }
   },
   "extras": [

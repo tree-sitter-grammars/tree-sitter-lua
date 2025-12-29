@@ -486,7 +486,7 @@ export default grammar({
 
     // var ::=  Name | prefixexp [ exp ] | prefixexp . Name
     variable: ($) =>
-      choice($.identifier, $.bracket_index_expression, $.dot_index_expression),
+      choice($._contextual_keyword, $.identifier, $.bracket_index_expression, $.dot_index_expression),
     // prefixexp [ exp ]
     bracket_index_expression: ($) =>
       seq(
@@ -627,5 +627,8 @@ export default grammar({
           field('end', alias($._block_comment_end, ']]'))
         )
       ),
+
+    // only `global` for now
+    _contextual_keyword: (_) => 'global',
   },
 });
