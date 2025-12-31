@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-lua"
 description = "Lua grammar for tree-sitter"
-version = "0.4.0"
+version = "0.4.1"
 authors = ["Munif Tanjim <hello@muniftanjim.dev>"]
 license = "MIT"
 readme = "README.md"
@@ -31,4 +31,4 @@ tree-sitter-language = "0.1"
 cc = "1.2"
 
 [dev-dependencies]
-tree-sitter = "0.25.3"
+tree-sitter = "0.26.3"
