@@ -117,7 +117,7 @@ export default grammar({
     assignment_statement: ($) =>
       seq(
         alias($._variable_assignment_varlist, $.variable_list),
-        '=',
+        field('operator', '='),
         alias($._variable_assignment_explist, $.expression_list)
       ),
     // varlist ::= var {',' var}
@@ -201,7 +201,7 @@ export default grammar({
     for_numeric_clause: ($) =>
       seq(
         field('name', $.identifier),
-        '=',
+        field('operator', '='),
         field('start', $.expression),
         ',',
         field('end', $.expression),
@@ -265,7 +265,7 @@ export default grammar({
     _local_variable_assignment: ($) =>
       seq(
         alias($._att_name_list, $.variable_list),
-        '=',
+        field('operator', '='),
         alias($._variable_assignment_explist, $.expression_list)
       ),
     // namelist ::= Name {',' Name}
@@ -496,10 +496,10 @@ export default grammar({
           '[',
           field('name', $.expression),
           ']',
-          '=',
+          field('operator', '='),
           field('value', $.expression)
         ),
-        seq(field('name', $.identifier), '=', field('value', $.expression)),
+        seq(field('name', $.identifier), field('operator', '='), field('value', $.expression)),
         field('value', $.expression)
       ),
 

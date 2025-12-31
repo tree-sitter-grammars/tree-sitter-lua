@@ -196,8 +196,12 @@
           "value": "variable_list"
         },
         {
-          "type": "STRING",
-          "value": "="
+          "type": "FIELD",
+          "name": "operator",
+          "content": {
+            "type": "STRING",
+            "value": "="
+          }
         },
         {
           "type": "ALIAS",
@@ -671,8 +675,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "="
+          "type": "FIELD",
+          "name": "operator",
+          "content": {
+            "type": "STRING",
+            "value": "="
+          }
         },
         {
           "type": "FIELD",
@@ -928,8 +936,12 @@
           "value": "variable_list"
         },
         {
-          "type": "STRING",
-          "value": "="
+          "type": "FIELD",
+          "name": "operator",
+          "content": {
+            "type": "STRING",
+            "value": "="
+          }
         },
         {
           "type": "ALIAS",
@@ -2326,8 +2338,12 @@
               "value": "]"
             },
             {
-              "type": "STRING",
-              "value": "="
+              "type": "FIELD",
+              "name": "operator",
+              "content": {
+                "type": "STRING",
+                "value": "="
+              }
             },
             {
               "type": "FIELD",
@@ -2351,8 +2367,12 @@
               }
             },
             {
-              "type": "STRING",
-              "value": "="
+              "type": "FIELD",
+              "name": "operator",
+              "content": {
+                "type": "STRING",
+                "value": "="
+              }
             },
             {
               "type": "FIELD",
