@@ -1,6 +1,6 @@
 {
   "name": "@tree-sitter-grammars/tree-sitter-lua",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Lua grammar for tree-sitter",
   "type": "module",
   "repository": "https://github.com/tree-sitter-grammars/tree-sitter-lua",

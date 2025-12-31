@@ -1,6 +1,6 @@
 LANGUAGE_NAME := tree-sitter-lua
 HOMEPAGE_URL := https://github.com/tree-sitter-grammars/tree-sitter-lua
-VERSION := 0.4.0
+VERSION := 0.4.1
 
 # repository
 SRC_DIR := src
