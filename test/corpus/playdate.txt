@@ -20,16 +20,14 @@ end
         (parameters
           (identifier))
         (block
-          (if_statement
-            (binary_expression
-              (identifier)
-              (unary_expression
-                (identifier)))
-            (block
-              (assignment_statement
-                (variable_list
-                  (identifier))
-                (expression_list
-                  (identifier)))))))))
-  (comment
-    (comment_content)))
+          (assignment_statement
+            (variable_list
+              (identifier))
+            (expression_list
+              (number)))))
+      (return_statement
+        (expression_list
+          (function_call
+            (identifier)
+            (arguments
+              (number))))))))
