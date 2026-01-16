@@ -496,7 +496,21 @@ export default grammar({
           '[',
           field('name', $.expression),
           ']',
-          field('operator', '='),
+          choice(
+            field("operator", "="),
+            // Additional non-standard assignment operators used by Playdate Lua
+            field("operator", "+="),
+            field("operator", "-="),
+            field("operator", "*="),
+            field("operator", "//="),
+            field("operator", "/="),
+            field("operator", "%="),
+            field("operator", "<<="),
+            field("operator", ">>="),
+            field("operator", "&="),
+            field("operator", "|="),
+            field("operator", "^="),
+          ),
           field('value', $.expression)
         ),
         seq(field('name', $.identifier), field('operator', '='), field('value', $.expression)),
