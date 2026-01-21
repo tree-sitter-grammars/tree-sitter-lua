@@ -84,7 +84,10 @@ export default grammar({
                 for namelist in explist do block end |
                 function funcname funcbody |
                 local function Name funcbody |
-                local namelist ['=' explist]
+                global function Name funcbody | 
+                local attnamelist ['=' explist] |
+                global attnamelist ['=' explist] |
+                global [attrib] ‘*’
     */
     statement: ($) =>
       choice(
@@ -99,7 +102,7 @@ export default grammar({
         $.repeat_statement,
         $.if_statement,
         $.for_statement,
-        $.declaration
+        $.declaration,
       ),
 
     // retstat ::= return [explist] [';']
@@ -207,10 +210,15 @@ export default grammar({
         field('end', $.expression),
         optional(seq(',', field('step', $.expression)))
       ),
+    // namelist ::= Name {',' Name}
+    _name_list: ($) => name_list($),
 
     // function funcname funcbody
     // local function Name funcbody
-    // local namelist ['=' explist]
+    // global function Name funcbody
+    // local attnamelist [‘=’ explist]
+    // global attnamelist [‘=’ explist]
+    // global [attrib] ‘*’
     declaration: ($) =>
       choice(
         $.function_declaration,
@@ -218,7 +226,19 @@ export default grammar({
           'local_declaration',
           alias($._local_function_declaration, $.function_declaration)
         ),
-        field('local_declaration', $.variable_declaration)
+        field('local_declaration', $.variable_declaration),
+        field(
+          'global_declaration',
+          alias($._global_function_declaration, $.function_declaration)
+        ),
+        field(
+          'global_declaration',
+          alias($._global_variable_declaration, $.variable_declaration)
+        ),
+        field(
+          'global_declaration',
+          alias($._global_implicit_variable_declaration, $.implicit_variable_declaration)
+        )
       ),
     // function funcname funcbody
     function_declaration: ($) =>
@@ -226,6 +246,9 @@ export default grammar({
     // local function Name funcbody
     _local_function_declaration: ($) =>
       seq('local', 'function', field('name', $.identifier), $._function_body),
+    // global function Name funcbody
+    _global_function_declaration: ($) =>
+      seq('global', 'function', field('name', $.identifier), $._function_body),
     // funcname ::= Name {'.' Name} [':' Name]
     _function_name: ($) =>
       choice(
@@ -253,34 +276,52 @@ export default grammar({
         field('method', $.identifier)
       ),
 
-    // local namelist ['=' explist]
+    // local attnamelist [‘=’ explist]
     variable_declaration: ($) =>
       seq(
         'local',
         choice(
           alias($._att_name_list, $.variable_list),
-          alias($._local_variable_assignment, $.assignment_statement)
+          alias($._variable_assignment, $.assignment_statement)
         )
       ),
-    _local_variable_assignment: ($) =>
+    // global attnamelist [‘=’ explist]
+    _global_variable_declaration: ($) =>
+      seq(
+        'global',
+        choice(
+          alias($._att_name_list, $.variable_list),
+          alias($._variable_assignment, $.assignment_statement),
+        )
+      ),
+    // attnamelist ‘=’ explist
+    _variable_assignment: ($) =>
       seq(
         alias($._att_name_list, $.variable_list),
         field('operator', '='),
         alias($._variable_assignment_explist, $.expression_list)
       ),
-    // namelist ::= Name {',' Name}
-    _name_list: ($) => name_list($),
 
-    // attnamelist ::=  Name attrib {‘,’ Name attrib}
+    // attnamelist ::= [attrib] Name [attrib] {‘,’ Name [attrib]}
     _att_name_list: ($) =>
-      list_seq(
-        seq(
-          field('name', $.identifier),
-          optional(field('attribute', alias($._attrib, $.attribute)))
+      seq(
+        optional(field('attribute', alias($._attrib, $.attribute))),
+        list_seq(
+          seq(
+            field('name', $.identifier),
+            optional(field('attribute', alias($._attrib, $.attribute)))
+          ),
+          ','
         ),
-        ','
       ),
-    // attrib ::= [‘<’ Name ‘>’]
+    // global [attrib] ‘*’
+    _global_implicit_variable_declaration: ($) =>
+      seq(
+        'global',
+        optional(field('attribute', alias($._attrib, $.attribute))),
+        '*'
+      ),
+    // attrib ::= ‘<’ Name ‘>’
     _attrib: ($) => seq('<', $.identifier, '>'),
 
     // explist ::= exp {',' exp}
@@ -429,12 +470,15 @@ export default grammar({
       ),
     // '(' [parlist] ')'
     parameters: ($) => seq('(', optional($._parameter_list), ')'),
-    // parlist ::= namelist [',' '...'] | '...'
+    // parlist ::= namelist [‘,’ varargparam] | varargparam
     _parameter_list: ($) =>
       choice(
-        seq(name_list($), optional(seq(',', $.vararg_expression))),
-        $.vararg_expression
+        seq(name_list($), optional(seq(',', $._vararg_parameter))),
+        $._vararg_parameter
       ),
+    // varargparam ::= ‘...’ [Name]
+    _vararg_parameter: ($) =>
+      seq($.vararg_expression, optional(field('name', $.identifier))),
 
     // prefixexp ::= var | functioncall | '(' exp ')'
     _prefix_expression: ($) =>
@@ -442,7 +486,7 @@ export default grammar({
 
     // var ::=  Name | prefixexp [ exp ] | prefixexp . Name
     variable: ($) =>
-      choice($.identifier, $.bracket_index_expression, $.dot_index_expression),
+      choice($._contextual_keyword, $.identifier, $.bracket_index_expression, $.dot_index_expression),
     // prefixexp [ exp ]
     bracket_index_expression: ($) =>
       seq(
@@ -499,7 +543,7 @@ export default grammar({
           field('operator', '='),
           field('value', $.expression)
         ),
-        seq(field('name', $.identifier), field('operator', '='), field('value', $.expression)),
+        seq(field('name', choice($._contextual_keyword, $.identifier)), '=', field('value', $.expression)),
         field('value', $.expression)
       ),
 
@@ -583,5 +627,8 @@ export default grammar({
           field('end', alias($._block_comment_end, ']]'))
         )
       ),
+
+    // only `global` for now
+    _contextual_keyword: (_) => 'global',
   },
 });
