@@ -8,6 +8,10 @@
         "named": true
       },
       {
+        "type": "implicit_variable_declaration",
+        "named": true
+      },
+      {
         "type": "variable_declaration",
         "named": true
       }
@@ -136,6 +140,10 @@
       {
         "type": "dot_index_expression",
         "named": true
+      },
+      {
+        "type": "global",
+        "named": false
       },
       {
         "type": "identifier",
@@ -573,6 +581,10 @@
             "named": true
           },
           {
+            "type": "global",
+            "named": false
+          },
+          {
             "type": "identifier",
             "named": true
           }
@@ -862,6 +874,22 @@
         "types": [
           {
             "type": "block",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "implicit_variable_declaration",
+    "named": true,
+    "fields": {
+      "attribute": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
             "named": true
           }
         ]
@@ -1360,6 +1388,10 @@
   },
   {
     "type": "function",
+    "named": false
+  },
+  {
+    "type": "global",
     "named": false
   },
   {
