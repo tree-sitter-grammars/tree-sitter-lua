@@ -1,17 +1,18 @@
 {
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
   "grammars": [
     {
       "name": "lua",
-      "path": ".",
       "scope": "source.lua",
+      "path": ".",
       "file-types": [
         "lua"
       ],
-      "injection-regex": "^lua$",
       "highlights": "queries/highlights.scm",
       "injections": "queries/injections.scm",
       "locals": "queries/locals.scm",
-      "tags": "queries/tags.scm"
+      "tags": "queries/tags.scm",
+      "injection-regex": "^lua$"
     }
   ],
   "metadata": {
@@ -27,5 +28,15 @@
     "links": {
       "repository": "https://github.com/tree-sitter-grammars/tree-sitter-lua"
     }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "java": false,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
   }
 }
