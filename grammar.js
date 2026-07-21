@@ -45,6 +45,9 @@ export default grammar({
     $._block_string_start,
     $._block_string_content,
     $._block_string_end,
+
+    $._double_quote_string_content,
+    $._single_quote_string_content,
   ],
 
   supertypes: ($) => [$.statement, $.expression, $.declaration, $.variable],
@@ -430,10 +433,10 @@ export default grammar({
       ),
 
     _doublequote_string_content: ($) =>
-      repeat1(choice(token.immediate(prec(1, /[^"\\]+/)), $.escape_sequence)),
+      repeat1(choice($._double_quote_string_content, $.escape_sequence)),
 
     _singlequote_string_content: ($) =>
-      repeat1(choice(token.immediate(prec(1, /[^'\\]+/)), $.escape_sequence)),
+      repeat1(choice($._single_quote_string_content, $.escape_sequence)),
 
     _block_string: ($) =>
       seq(

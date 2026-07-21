@@ -53,6 +53,13 @@ print("level 2 block comment")
 print("not level 2 block comment")
 --]==]
 
+print "--[[hello]]world" -- long comment delimiters inside a string
+print "--[=["
+print "foo"
+--]=]
+print "bar"
+print '---[==['           -- the same case in a single-quoted string
+
 --------------------------------------------------------------------------------
 
 (chunk
@@ -93,6 +100,37 @@ print("not level 2 block comment")
     content: (comment_content))
   (comment
     content: (comment_content))
+  (function_call
+    name: (identifier)
+    arguments: (arguments
+      (string
+        content: (string_content))))
+  (comment
+    content: (comment_content))
+  (function_call
+    name: (identifier)
+    arguments: (arguments
+      (string
+        content: (string_content))))
+  (comment
+    content: (comment_content))
+  (function_call
+    name: (identifier)
+    arguments: (arguments
+      (string
+        content: (string_content))))
+  (function_call
+    name: (identifier)
+    arguments: (arguments
+      (string
+        content: (string_content))))
+  (comment
+    content: (comment_content))
+  (function_call
+    name: (identifier)
+    arguments: (arguments
+      (string
+        content: (string_content))))
   (function_call
     name: (identifier)
     arguments: (arguments
