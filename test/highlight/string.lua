@@ -57,3 +57,24 @@ _ = [[x]]
 
 _ = [=[x]=]
 --     ^ string
+
+_ = "--[[hello]]world"
+--  ^ string
+--       ^ string
+
+_ = "--[=["
+--  ^ string
+--     ^ string
+
+_ = "foo"
+--  ^ string
+
+--]=]
+--^ comment
+
+_ = "bar"
+--  ^ string
+
+_ = '---[==['
+--  ^ string
+--      ^ string

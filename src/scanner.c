@@ -11,6 +11,9 @@ enum TokenType {
   BLOCK_STRING_START,
   BLOCK_STRING_CONTENT,
   BLOCK_STRING_END,
+
+  DOUBLE_QUOTE_STRING_CONTENT,
+  SINGLE_QUOTE_STRING_CONTENT,
 };
 
 static inline void consume(TSLexer *lexer) { lexer->advance(lexer, false); }
@@ -154,8 +157,29 @@ static bool scan_comment_content(Scanner *scanner, TSLexer *lexer) {
   return false;
 }
 
+static bool scan_quote_string_content(char ending_char, TSLexer *lexer) {
+  bool has_content = false;
+
+  while (lexer->lookahead != 0 && lexer->lookahead != ending_char && lexer->lookahead != '\\') {
+    has_content = true;
+    consume(lexer);
+  }
+
+  return has_content;
+}
+
 bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
   Scanner *scanner = (Scanner *)payload;
+
+  if (valid_symbols[DOUBLE_QUOTE_STRING_CONTENT] && scan_quote_string_content('"', lexer)) {
+    lexer->result_symbol = DOUBLE_QUOTE_STRING_CONTENT;
+    return true;
+  }
+
+  if (valid_symbols[SINGLE_QUOTE_STRING_CONTENT] && scan_quote_string_content('\'', lexer)) {
+    lexer->result_symbol = SINGLE_QUOTE_STRING_CONTENT;
+    return true;
+  }
 
   if (valid_symbols[BLOCK_STRING_END] && scan_block_end(scanner, lexer)) {
     reset_state(scanner);
