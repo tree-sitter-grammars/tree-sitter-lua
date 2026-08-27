@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "tree_sitter/alloc.h"
 #include "tree_sitter/parser.h"
 #include <wctype.h>
@@ -26,8 +27,8 @@ static inline bool consume_char(char c, TSLexer *lexer) {
   return true;
 }
 
-static inline uint8_t consume_and_count_char(char c, TSLexer *lexer) {
-  uint8_t count = 0;
+static inline size_t consume_and_count_char(char c, TSLexer *lexer) {
+  size_t count = 0;
   while (lexer->lookahead == c) {
     ++count;
     consume(lexer);
@@ -43,7 +44,7 @@ static inline void skip_whitespaces(TSLexer *lexer) {
 
 typedef struct {
   char ending_char;
-  uint8_t level_count;
+  size_t level_count;
 } Scanner;
 
 static inline void reset_state(Scanner *scanner) {
@@ -64,21 +65,21 @@ void tree_sitter_lua_external_scanner_destroy(void *payload) {
 unsigned tree_sitter_lua_external_scanner_serialize(void *payload, char *buffer) {
   Scanner *scanner = (Scanner *)payload;
   buffer[0] = scanner->ending_char;
-  buffer[1] = (char)scanner->level_count;
-  return 2;
+  memcpy(buffer + 1, &scanner->level_count, sizeof(scanner->level_count));
+  return 1 + sizeof(scanner->level_count);
 }
 
 void tree_sitter_lua_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
   Scanner *scanner = (Scanner *)payload;
   if (length == 0) return;
   scanner->ending_char = buffer[0];
-  if (length == 1) return;
-  scanner->level_count = buffer[1];
+  if (length < 1 + sizeof(scanner->level_count)) return;
+  memcpy(&scanner->level_count, buffer + 1, sizeof(scanner->level_count));
 }
 
 static bool scan_block_start(Scanner *scanner, TSLexer *lexer) {
   if (consume_char('[', lexer)) {
-    uint8_t level = consume_and_count_char('=', lexer);
+    size_t level = consume_and_count_char('=', lexer);
 
     if (consume_char('[', lexer)) {
       scanner->level_count = level;
@@ -91,7 +92,7 @@ static bool scan_block_start(Scanner *scanner, TSLexer *lexer) {
 
 static bool scan_block_end(Scanner *scanner, TSLexer *lexer) {
   if (consume_char(']', lexer)) {
-    uint8_t level = consume_and_count_char('=', lexer);
+    size_t level = consume_and_count_char('=', lexer);
 
     if (scanner->level_count == level && consume_char(']', lexer)) {
       return true;
